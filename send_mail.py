@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase 
 from email import encoders 
 
-def send_mail(fromaddr, toaddr, m_subject, m_body, m_filename, m_attachment_dir, m_smtp_server):
+def send_mail(fromaddr, toaddr, recipients, m_subject, m_body, m_filename, m_attachment_dir, m_smtp_server):
     # MIMEMultipart 
     msg = MIMEMultipart() 
 
@@ -13,6 +13,7 @@ def send_mail(fromaddr, toaddr, m_subject, m_body, m_filename, m_attachment_dir,
 
     # receivers email address 
     msg['To'] = toaddr 
+    recipients = recipients
 
     # the subject of mail
     msg['Subject'] = m_subject
@@ -48,10 +49,10 @@ def send_mail(fromaddr, toaddr, m_subject, m_body, m_filename, m_attachment_dir,
     email = smtplib.SMTP(smtp_server) 
 
     # TLS for security 
-    email.starttls() 
+    # email.starttls()
 
     # Converts the Multipart msg into a string 
     message = msg.as_string() 
 
     # sending the mail 
-    email.sendmail(fromaddr, toaddr, message)
+    email.sendmail(fromaddr, recipients, message)
